@@ -1,24 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:world_s/pages/EventListPage/widget_e/filter_Event.dart';
+import 'package:world_s/pages/EventListPage/event_page_cont.dart';
 
 class EventsListPage extends StatelessWidget {
   const EventsListPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          SizedBox(height: 50),
-          Text(
-            "Events List",
-            style: TextStyle(fontSize: 35),
-          ),
-          SizedBox(height: 20),
-          FilterButton(),
-        ],
-      ),
-    );
+    return Scaffold(body: Navigator(
+      onGenerateRoute: (settings) {
+        return MaterialPageRoute(builder: (context) => ContentEventPage());
+      },
+    ));
   }
 }

@@ -1,16 +1,28 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:world_s/pages/EventListPage/event_detail.dart';
 import 'package:world_s/pages/EventListPage/model_e/event.dart';
 
 class EventCard extends StatefulWidget {
-  const EventCard({super.key, required this.filtered});
+  const EventCard({super.key, required this.filtered, required this.parfun});
 
   final List<Event> filtered;
+  final Function() parfun;
 
   @override
   State<EventCard> createState() => _EventCardState();
 }
 
 class _EventCardState extends State<EventCard> {
+  Future<void> saveEvents() async {
+    final jstring =
+        widget.filtered.map((j) => json.encode(j.toJson())).toList();
+
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    await pref.setStringList('eventstat', jstring);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -27,9 +39,13 @@ class _EventCardState extends State<EventCard> {
                     setState(() {
                       even.status = "Read";
                     });
+                    saveEvents();
                   }
-                  Navigator.pushNamed(context, '/eventdetailpage');
-                
+                  widget.parfun();
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => EventDetailPage(eventd: even)));
                 },
                 child: Padding(
                   padding:
@@ -41,17 +57,21 @@ class _EventCardState extends State<EventCard> {
                         children: [
                           Padding(
                             padding: const EdgeInsets.all(8.0),
-                            child: Container(
-                              height: 130,
-                              width: 130,
-                              decoration: BoxDecoration(
-                                  border:
-                                      Border.all(color: Colors.grey, width: 3),
-                                  color: Colors.grey,
-                                  image: DecorationImage(
-                                      fit: BoxFit.fill,
-                                      image:
-                                          AssetImage(even.image.toString()))),
+                            child: Hero(
+                              tag: 'midpic',
+                              child: Container(
+                                  height: 130,
+                                  width: 130,
+                                  decoration: BoxDecoration(
+                                    border: Border.all(
+                                        color: Colors.grey, width: 3),
+                                    color: Colors.grey,
+                                  ),
+                                  child: FittedBox(
+                                    fit: BoxFit.fill,
+                                    child: Image.asset(
+                                        even.image ?? "assets/pic/unva.jpeg"),
+                                  )),
                             ),
                           ),
                           Column(

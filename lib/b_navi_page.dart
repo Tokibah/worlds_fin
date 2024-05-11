@@ -4,33 +4,34 @@ import 'package:world_s/pages/RecordsPage/records.dart';
 import 'package:world_s/pages/TicketListPage/ticket_list.dart';
 
 class NavigatePage extends StatefulWidget {
-  const NavigatePage({super.key});
+  const NavigatePage({
+    super.key,
+  });
 
   @override
   State<NavigatePage> createState() => _NavigatePageState();
 }
 
 class _NavigatePageState extends State<NavigatePage> {
-  int _selecIndex = 0;
+  int selecIndex = 0;
 
-  List<Widget> _page = [
-    EventsListPage(),
-    TicketListPage(),
-    RecordsPage()
-  ];
+  List<Widget> _page = [EventsListPage(), TicketListPage(), RecordsPage()];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: _page[_selecIndex],
+      body: IndexedStack(
+        index: selecIndex,
+        children: _page,
+      ),
       bottomNavigationBar: Container(
         decoration: BoxDecoration(border: Border(top: BorderSide(width: 1))),
         height: 70,
         child: BottomNavigationBar(
-          currentIndex: _selecIndex,
+          currentIndex: selecIndex,
           onTap: (index) {
             setState(() {
-              _selecIndex = index;
+              selecIndex = index;
             });
           },
           unselectedFontSize: 23,
