@@ -18,7 +18,7 @@ class _TicketCardState extends State<TicketCard> {
     return Align(
       child: Container(
         constraints: BoxConstraints(
-            maxHeight: MediaQuery.of(context).size.height * 0.7, minHeight: 0),
+            maxHeight: 200),
         child: ReorderableListView(
           onReorder: (int oldIndex, int newIndex) {
             setState(() {
@@ -29,12 +29,8 @@ class _TicketCardState extends State<TicketCard> {
               widget.tickcard.insert(newIndex, item);
             });
           },
-          children: [
-            Column(
-              children: widget.tickcard.map((tick) {
-                return Column(
-                  
-                  children: [
+          children: widget.tickcard.map((tick) {
+                return
                     Dismissible(
                       key: Key(tick.date.toString()),
                       onDismissed: (direction) {
@@ -104,12 +100,11 @@ class _TicketCardState extends State<TicketCard> {
                           ),
                         ),
                       ),
-                    ),
-                  ],
-                );
+                    );
+
               }).toList(),
-            ),
-          ],
+
+
         ),
       ),
     );

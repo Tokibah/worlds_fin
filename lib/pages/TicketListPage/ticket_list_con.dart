@@ -41,7 +41,7 @@ class _ContTicketListState extends State<ContTicketList> {
   Future<void> savetick() async {
     SharedPreferences pref = await SharedPreferences.getInstance();
 
-    final tstring = ticket.map((e) => jsonEncode(e.toJson)).toList();
+    final tstring = ticket.map((e) => jsonEncode(e.toJson())).toList();
     await pref.setStringList('ticket', tstring);
   }
 
@@ -92,15 +92,16 @@ class _ContTicketListState extends State<ContTicketList> {
                 height: 50,
                 child: ElevatedButton(
                     onPressed: () async {
-                      Ticket newtick = await Navigator.push(
+                      Ticket? newtick = await Navigator.push(
                           context,
                           MaterialPageRoute(
                               builder: (context) => TicketCreatePage()));
-
-                      setState(() {
-                        ticket.add(newtick);
-                        savetick();
-                      });
+                      if(newtick != null) {
+                        setState(() {
+                          ticket.add(newtick);
+                          savetick();
+                        });
+                      }
                     },
                     style: ElevatedButton.styleFrom(
                         backgroundColor: Color.fromARGB(255, 220, 213, 151),

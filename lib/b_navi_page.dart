@@ -26,7 +26,7 @@ class _NavigatePageState extends State<NavigatePage> {
       ),
       bottomNavigationBar: Container(
         decoration: BoxDecoration(border: Border(top: BorderSide(width: 1))),
-        height: 70,
+        height: 85,
         child: BottomNavigationBar(
           currentIndex: selecIndex,
           onTap: (index) {
